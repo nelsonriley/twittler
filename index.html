@@ -3,8 +3,54 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   </head>
   <body>
+  	
+    <div class="jumbotron">
+      <h1>Twittler</h1>
+      <p>Following 4 Users - Viewing 198 Twitts</p>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>Twitts</h2>
+        </div>
+        <div class="col-md-8">
+            <ul class="list-group twitts">
+              <li class="list-group-item">
+                <a class="user" href="#">@user</a>
+                <span class="date">date</span>
+                <p class="message">tweet</p>
+              </li>
+              <li class="list-group-item">
+                <a class="user" href="#">@user</a>
+                <span class="date">date</span>
+                <p class="message">tweet</p>
+              </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+          	<h2><span class="selected-user">@user</span> Twitts</h2>
+        </div>
+        <div class="col-md-4">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a class="user" href="#">@user</a>
+                <span class="date">date</span>
+                <p class="message">tweet</p>
+              </li>
+              <li class="list-group-item">
+                <a class="user" href="#">@user</a>
+                <span class="date">date</span>
+                <p class="message">tweet</p>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    
     <script>
 	// Requirements:
 	// 1) Show user new tweets automatically as they're created (or with a refresh button)
@@ -16,8 +62,8 @@
 	// new tweets are pushed to the end of the array
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
+        var $twitts = $('.twitts');
+        $twitts.html('');
 
 		var tweetCount = 0;
 		var addNewTweets = function() {
@@ -26,10 +72,10 @@
             var tweet = streams.home[index];
             var $tweet = $('<div class=\"tweet\"></div>');
             $tweet.text(tweet.created_at + ' @' + tweet.user + ': ' + tweet.message);
-            $tweet.prependTo($body);
+            $tweet.prependTo($twitts);
             index -= 1;
           }
-          tweetCount = $body.find('.tweet').length;
+          tweetCount = $twitts.find('.tweet').length;
           setTimeout(addNewTweets, 1000);
 		}
 		addNewTweets();
