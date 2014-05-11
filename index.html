@@ -6,20 +6,34 @@
   </head>
   <body>
     <script>
+	// Requirements:
+	// 1) Show user new tweets automatically as they're created (or with a refresh button)
+	// 2) Display the timestamps of when the tweets were created
+	// 3) Make it pretty
+	// 4) Allow the user to click on a username to see that user's timeline
+		// extra credit: see curriculum
+		
+	// new tweets are pushed to the end of the array
 
       $(document).ready(function(){
         var $body = $('body');
         $body.html('');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
-
+		var tweetCount = 0;
+		var addNewTweets = function() {
+          var index = streams.home.length - 1;
+          while(index >= tweetCount){
+            var tweet = streams.home[index];
+            var $tweet = $('<div class=\"tweet\"></div>');
+            $tweet.text(tweet.created_at + ' @' + tweet.user + ': ' + tweet.message);
+            $tweet.prependTo($body);
+            index -= 1;
+          }
+          tweetCount = $body.find('.tweet').length;
+          setTimeout(addNewTweets, 1000);
+		}
+		addNewTweets();
+		
       });
 
     </script>
