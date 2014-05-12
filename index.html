@@ -3,6 +3,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="moment.min.js"></script>
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   </head>
@@ -65,7 +66,8 @@
             var $tweet = $('<li class=\"list-group-item tweet\"></li>');
             var $user = $('<a href=\"#\" class=\"activate-user\">@<span class=\"user\">' + tweet.user + '</span></a>');
             $user.appendTo($tweet);
-            var $date = $('<span class=\"date\"> ' + tweet.created_at + '</span>');
+            var timeago = moment(tweet.created_at).fromNow();
+            var $date = $('<span class=\"date\"> ' + timeago + '</span>');
             $date.appendTo($tweet);
             var $message =  $('<p class=\"message\"> ' + tweet.message + '</p>');
             $message.appendTo($tweet);
