@@ -10,7 +10,7 @@
   	
     <div class="jumbotron">
       <h1>Twittler</h1>
-      <p>Following 4 Users - Viewing 198 Twitts</p>
+      <p>Following <span class="user-count">10000</span> Users - Viewing <span class="twitt-count">999999</span> Twitts</p>
     </div>
     <div class="container">
       <div class="row">
@@ -28,7 +28,7 @@
             </ul>
         </div>
         <div class="col-md-4">
-          	<h2>@<span class="selected-user">selectedUser</span> Twitts</h2>
+          	<h2>@<span class="active-user">selectedUser</span> Twitts</h2>
         </div>
         <div class="col-md-4">
             <ul class="list-group user-twitts">
@@ -43,44 +43,80 @@
 	// 2) Display the timestamps of when the tweets were created
 	// 3) Make it pretty
 	// 4) Allow the user to click on a username to see that user's timeline
-		// extra credit: see curriculum
-		
-	// new tweets are pushed to the end of the array
+		// extra credit: date formatting with library, ability for user to tweet
 
       $(document).ready(function(){
+      	// setup the DOM
         var $twitts = $('.all-twitts');
         $twitts.html('');
+        var $userTwitts = $('.user-twitts');
         
+        // attach events after HTML is injected
         var attachEvents = function() {
         	// selector is "directly bound", handler will thus be triggered from events bubbling up from descendants
 	        $('.activate-user').on('click', function(event) {
-		        alert($(this).find('.user').html());
+	        	var name = $(this).find('.user').html();
+	        	activateUser(name);
 	        });
         }
-
-		var tweetCount = 0;
-		var addNewTweets = function() {
-          var index = streams.home.length - 1;
-          while(index >= tweetCount){
-            var tweet = streams.home[index];
+        
+        // tweet html injected manually, since we aren't using templates
+        var buildTweet = function(tweet) {
             var $tweet = $('<li class=\"list-group-item tweet\"></li>');
-            
             var $user = $('<a href=\"#\" class=\"activate-user\">@<span class=\"user\">' + tweet.user + '</span></a>');
             $user.appendTo($tweet);
             var $date = $('<span class=\"date\"> ' + tweet.created_at + '</span>');
             $date.appendTo($tweet);
             var $message =  $('<p class=\"message\"> ' + tweet.message + '</p>');
             $message.appendTo($tweet);
-            
+	        return $tweet;
+        }
+
+		// populate the Twitter feed
+		var tweetCount = 0;
+		var addNewTweets = function() {
+          var index = streams.home.length - 1;
+          while(index >= tweetCount){
+            var tweet = streams.home[index];
+            var $tweet = buildTweet(tweet);
             $tweet.prependTo($twitts);
             index -= 1;
           }
           tweetCount = $twitts.find('.tweet').length;
+          $('.twitt-count').text(tweetCount);
           setTimeout(addNewTweets, 4000);
           
           attachEvents();
 		}
 		addNewTweets();
+		
+		// populate the Selected User's feed
+		var addUserTweets = function(name) {
+		  var tweets = streams.users[name];
+		  var index = tweets.length - 1;
+          while(index >= 0){
+            var tweet = tweets[index];
+            var $tweet = buildTweet(tweet);
+            $tweet.prependTo($userTwitts);
+            index -= 1;
+          }
+		}
+		  
+		// update user count
+		$('.user-count').text(users.length);
+		
+		// choose a randome user// add random active user
+        var randomName = users[Math.floor(Math.random()*users.length)];
+        var activateUser = function(name) {
+	        $userTwitts.html('');
+		    addUserTweets(name);
+		    $('.active-user').text(name);
+        };
+        activateUser(randomName);
+
+		// update date format
+		// MAJOR ability to add a tweet
+		
 		
       });
 
