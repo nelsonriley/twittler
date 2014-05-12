@@ -18,14 +18,10 @@
           <h2>Twitts</h2>
         </div>
         <div class="col-md-8">
-            <ul class="list-group twitts">
+            <ul class="list-group all-twitts">
+              <!-- tweet template -->
               <li class="list-group-item">
-                <a class="user" href="#">@user</a>
-                <span class="date">date</span>
-                <p class="message">tweet</p>
-              </li>
-              <li class="list-group-item">
-                <a class="user" href="#">@user</a>
+                <a href="#">@<span class="user">user</span></a>
                 <span class="date">date</span>
                 <p class="message">tweet</p>
               </li>
@@ -35,17 +31,7 @@
           	<h2><span class="selected-user">@user</span> Twitts</h2>
         </div>
         <div class="col-md-4">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a class="user" href="#">@user</a>
-                <span class="date">date</span>
-                <p class="message">tweet</p>
-              </li>
-              <li class="list-group-item">
-                <a class="user" href="#">@user</a>
-                <span class="date">date</span>
-                <p class="message">tweet</p>
-              </li>
+            <ul class="list-group user-twitts">
             </ul>
         </div>
       </div>
@@ -62,7 +48,7 @@
 	// new tweets are pushed to the end of the array
 
       $(document).ready(function(){
-        var $twitts = $('.twitts');
+        var $twitts = $('.all-twitts');
         $twitts.html('');
 
 		var tweetCount = 0;
@@ -70,8 +56,15 @@
           var index = streams.home.length - 1;
           while(index >= tweetCount){
             var tweet = streams.home[index];
-            var $tweet = $('<div class=\"tweet\"></div>');
-            $tweet.text(tweet.created_at + ' @' + tweet.user + ': ' + tweet.message);
+            var $tweet = $('<li class=\"list-group-item tweet\"></li>');
+            
+            var $user = $('<a href=\"#\">@<span class=\"user\">' + tweet.user + '</span></a>');
+            $user.appendTo($tweet);
+            var $date = $('<span class=\"date\"> ' + tweet.created_at + '</span>');
+            $date.appendTo($tweet);
+            var $message =  $('<p class=\"message\"> ' + tweet.message + '</p>');
+            $message.appendTo($tweet);
+            
             $tweet.prependTo($twitts);
             index -= 1;
           }
