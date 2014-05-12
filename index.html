@@ -58,7 +58,10 @@
 	// 3) Make it pretty
 	// 4) Allow the user to click on a username to see that user's timeline
 		// extra credit: date formatting with library, ability for user to tweet
-
+	  
+	  // global visitor property
+	  var visitor = 'whoamithistime';
+	  
       $(document).ready(function(){
       	// setup the DOM
         var $twitts = $('.all-twitts');
@@ -128,21 +131,25 @@
 		// update user count
 		$('.user-count').text(users.length);
 		
-		// choose a randome user// add random active user
+		// choose a random active user to start
         var randomName = users[Math.floor(Math.random()*users.length)];
         var activateUser = function(name) {
 	        $userTwitts.html('');
 		    addUserTweets(name);
 		    $('.active-user').text(name);
+		    visitor = name; // sets the global visitor property
         };
         activateUser(randomName);
         
         // start recursive tweet updates
 		addNewTweets();	
 		
-		// submit twitts
+		// submit twitts on behalf of the active user
 		$('.twitt-submit').on('click', function() {
-		  alert($('.twitt-input').val());
+		  var message = $('.twitt-input').val();
+		  if (message != '') {
+			writeTweet(message);
+		  }
 		});
 		
       });
