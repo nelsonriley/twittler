@@ -12,6 +12,19 @@
     <div class="jumbotron">
       <h1>Twittler</h1>
       <p>Following <span class="user-count">10000</span> Users - Viewing <span class="twitt-count">999999</span> Twitts</p>
+      <br>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-9">
+              <input type="text" placeholder="have something to twitt' about?" class="form-control twitt-input">
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-primary twitt-submit">Twit' it</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="container">
       <div class="row">
@@ -126,6 +139,11 @@
         
         // start recursive tweet updates
 		addNewTweets();	
+		
+		// submit twitts
+		$('.twitt-submit').on('click', function() {
+		  alert($('.twitt-input').val());
+		});
 		
       });
 
