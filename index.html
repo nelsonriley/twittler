@@ -67,7 +67,7 @@
             var $user = $('<a href=\"#\" class=\"activate-user\">@<span class=\"user\">' + tweet.user + '</span></a>');
             $user.appendTo($tweet);
             var timeago = moment(tweet.created_at).fromNow();
-            var $date = $('<span class=\"date\"> ' + timeago + '</span>');
+            var $date = $('<span class=\"date\" data-date=\"' + tweet.created_at + '/"> ' + timeago + '</span>');
             $date.appendTo($tweet);
             var $message =  $('<p class=\"message\"> ' + tweet.message + '</p>');
             $message.appendTo($tweet);
@@ -88,9 +88,17 @@
           $('.twitt-count').text(tweetCount);
           setTimeout(addNewTweets, 4000);
           
+          updateTimeago();
           attachEvents();
 		}
-		addNewTweets();
+		
+		// re-timeago the dates
+		var updateTimeago = function() {
+		  $('.date').each(function() {
+		  	var freshDate = moment($(this).data('date')).fromNow();
+			$(this).html(' ' + freshDate);
+		  });
+		}
 		
 		// populate the Selected User's feed
 		var addUserTweets = function(name) {
@@ -115,10 +123,9 @@
 		    $('.active-user').text(name);
         };
         activateUser(randomName);
-
-		// update date format
-		// MAJOR ability to add a tweet
-		
+        
+        // start recursive tweet updates
+		addNewTweets();	
 		
       });
 
