@@ -50,6 +50,13 @@
       $(document).ready(function(){
         var $twitts = $('.all-twitts');
         $twitts.html('');
+        
+        var attachEvents = function() {
+        	// selector is "directly bound", handler will thus be triggered from events bubbling up from descendants
+	        $('.activate-user').on('click', function(event) {
+		        alert($(this).find('.user').html());
+	        });
+        }
 
 		var tweetCount = 0;
 		var addNewTweets = function() {
@@ -58,7 +65,7 @@
             var tweet = streams.home[index];
             var $tweet = $('<li class=\"list-group-item tweet\"></li>');
             
-            var $user = $('<a href=\"#\">@<span class=\"user\">' + tweet.user + '</span></a>');
+            var $user = $('<a href=\"#\" class=\"activate-user\">@<span class=\"user\">' + tweet.user + '</span></a>');
             $user.appendTo($tweet);
             var $date = $('<span class=\"date\"> ' + tweet.created_at + '</span>');
             $date.appendTo($tweet);
@@ -70,6 +77,8 @@
           }
           tweetCount = $twitts.find('.tweet').length;
           setTimeout(addNewTweets, 4000);
+          
+          attachEvents();
 		}
 		addNewTweets();
 		
